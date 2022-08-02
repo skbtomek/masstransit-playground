@@ -3,23 +3,24 @@ using MassTransit;
 
 namespace FileService.Consumers;
 
-public class CreateFileConsumer : IConsumer<CreateFile>
+public class FileServiceCreateFileConsumer : IConsumer<CreateFile>
 {
-    private readonly ILogger<CreateFileConsumer> _logger;
+    private readonly ILogger<FileServiceCreateFileConsumer> _logger;
 
-    public CreateFileConsumer(ILogger<CreateFileConsumer> logger)
+    public FileServiceCreateFileConsumer(ILogger<FileServiceCreateFileConsumer> logger)
     {
         _logger = logger;
     }
 
     public async Task Consume(ConsumeContext<CreateFile> context)
     {
+        if (context.Message.ThrowExceptionOn == nameof(FileServiceCreateFileConsumer))
+        {
+            throw new ConsumerException($"Throwing from {nameof(FileServiceCreateFileConsumer)}");
+        }
+
         switch (context.Message.FileName)
         {
-            case "throw-exception":
-                _logger.LogError("Just some error that results in exception");
-                throw new ConsumerException("Some error");
-
             case "invalid-name":
             {
                 await context.Publish<CreateFileFailed>(new
@@ -30,7 +31,7 @@ public class CreateFileConsumer : IConsumer<CreateFile>
                 _logger.LogInformation("Unable to create file, invalid name");
                 break;
             }
-            
+
             default:
             {
                 var fileId = Guid.NewGuid();

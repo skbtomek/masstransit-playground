@@ -1,10 +1,10 @@
-﻿using MendixTracker;
-using Microsoft.Extensions.Configuration;
+﻿using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
+using ServiceClient;
 
 const string sendTopic = "contracts.document/generatedocument";
 const string receiveTopic = "contracts.document/generatedocumentresolved";
-const string receiveTopicSubscription = "mendix-tracker";
+const string receiveTopicSubscription = "-client";
 
 var loggerFactory = LoggerFactory.Create(config => config.AddConsole());
 
@@ -15,10 +15,11 @@ var config = new ConfigurationBuilder()
     .Build();
 
 var busClient = new BusClient(config, loggerFactory.CreateLogger<BusClient>());
+
 await busClient.CreateSubscriptionIfNotExists(receiveTopic, receiveTopicSubscription);
 
-var correlationId = Guid.NewGuid();
-
+//var correlationId = Guid.NewGuid();
+var correlationId = Guid.Parse("409ee5e1-5f0a-4878-9d36-bda81850e834");
 await busClient.SendMessage(sendTopic, new
 {
     correlationId,

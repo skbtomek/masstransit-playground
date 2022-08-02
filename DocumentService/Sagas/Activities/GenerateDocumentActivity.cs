@@ -27,6 +27,11 @@ public class GenerateDocumentActivity : IStateMachineActivity<GenerateDocumentSa
     {
         _logger.LogInformation("Template file with id {TemplateFileId} downloaded", context.Message.TemplateFileId);
         _logger.LogInformation("Data source file with id {DataSourceFileId} downloaded", context.Message.DataSourceFileId);
+
+        if (context.Message.ThrowExceptionOn == nameof(GenerateDocumentActivity))
+        {
+            throw new Exception("I'm throwing from GenerateDocumentActivity!");
+        }
         
         _logger.LogInformation("Document generated and saved locally");
         context.Saga.GenerateDocumentName = "new_doc_" + DateTime.Now;

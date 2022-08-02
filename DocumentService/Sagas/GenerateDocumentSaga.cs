@@ -14,10 +14,15 @@ public class GenerateDocumentSaga : MassTransitStateMachine<GenerateDocumentSaga
         Initially(
             When(GenerateDocument)
                 .Activity(selector => selector.OfType<GenerateDocumentActivity>())
+                .Then(context =>
+                {
+                    context.Saga.ThrowExceptionOn = context.Message.ThrowExceptionOn;
+                })
                 .PublishAsync(context => context.Init<CreateFile>(new
                 {
                     context.Message.CorrelationId,
-                    FileName = context.Saga.GenerateDocumentName
+                    FileName = context.Saga.GenerateDocumentName,
+                    context.Message.ThrowExceptionOn,
                 }))
                 .TransitionTo(DocumentGeneratedAndSavedLocally));
 
@@ -28,10 +33,15 @@ public class GenerateDocumentSaga : MassTransitStateMachine<GenerateDocumentSaga
                 {
                     logger.LogInformation("File created");
                     context.Saga.GeneratedDocumentFileId = context.Message.FileId;
+                    if (context.Saga.ThrowExceptionOn == nameof(FileCreated))
+                    {
+                        throw new Exception("Throwing during consuming CreateFileRequestResolved from FileService....");
+                    }
                     await context.Publish<GetFileUploadHandle>(new
                     {
                         context.Message.CorrelationId,
-                        FileId = context.Saga.GeneratedDocumentFileId
+                        FileId = context.Saga.GeneratedDocumentFileId,
+                        context.Saga.ThrowExceptionOn,
                     });
                 })
                 .TransitionTo(WaitingForFileUploadHandle));
@@ -51,7 +61,6 @@ public class GenerateDocumentSaga : MassTransitStateMachine<GenerateDocumentSaga
 
     public State? DocumentGeneratedAndSavedLocally { get; set; }
     public State? WaitingForFileUploadHandle { get; set; }
-
 
     public Event<GenerateDocument>? GenerateDocument { get; } = null;
     public Event<CreateFileResolved>? FileCreated { get; } = null;

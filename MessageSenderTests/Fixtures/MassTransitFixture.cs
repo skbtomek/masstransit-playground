@@ -1,25 +1,25 @@
 using System;
 using System.Threading.Tasks;
 using MassTransit;
-using MTMessageSender.Configuration;
-using Operate.Events;
+using Microsoft.Extensions.Configuration;
 
-namespace MTMessageSender.Fixtures;
+namespace MessageSender.Fixtures;
 
-public class MessagingFixture : IDisposable
+public class MassTransitFixture : IDisposable
 {
     public IBusControl? Bus { get; set; }
 
-    public MessagingFixture()
+    public MassTransitFixture()
     {
         StartBus();
     }
 
+    protected virtual string ConnectionStringName => "PlaygroundServiceBus";
+
     private void StartBus()
     {
         var serviceBusConnectionString = Configuration.ConfigurationInstance
-            .GetSection(AsyncApiConfiguration.ServiceBusConnectionString)
-            .Value;
+            .GetConnectionString(ConnectionStringName);
 
         Bus = MassTransit.Bus.Factory.CreateUsingAzureServiceBus(config =>
         { 

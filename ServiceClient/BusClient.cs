@@ -5,7 +5,7 @@ using Azure.Messaging.ServiceBus.Administration;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 
-namespace MendixTracker;
+namespace ServiceClient;
 
 public class BusClient
 {

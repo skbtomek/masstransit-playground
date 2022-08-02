@@ -1,11 +1,12 @@
 ﻿using DocumentService.Configuration;
 using DocumentService.Sagas;
 using MassTransit;
+using MassTransit.Middleware;
 using Microsoft.Azure.Cosmos.Table;
 
 namespace DocumentService;
 
-public static class MessagingConfiguration
+public static class MassTransitConfiguration
 {
     public static void AddMessaging(this IServiceCollection services, IConfiguration configuration)
     {
@@ -13,15 +14,24 @@ public static class MessagingConfiguration
         {
             busConfig.SetKebabCaseEndpointNameFormatter();
 
-            busConfig.AddSagaStateMachine<GenerateDocumentSaga, GenerateDocumentSagaState>()
+            busConfig.AddSagaStateMachine<GenerateDocumentSaga, GenerateDocumentSagaState>(typeof(GenerateDocumentSagaDefinition))
                 .AzureTableRepository(repoConfig => repoConfig.ConnectionFactory(configuration.CreateCloudTable));
 
             busConfig.UsingAzureServiceBus((context, config) =>
             {
+               
                 config.UseInMemoryOutbox();
+
                 config.UseConsumeFilter(typeof(LoggingEnrichmentFilter<>), context);
+
                 config.Host(configuration.GetConnectionString("ServiceBus"));
+                
                 config.ConfigureEndpoints(context);
+                
+                config.SubscriptionEndpoint("my-sub", "my-topic", config =>
+                {
+                    //
+                });
             });
         });
     }

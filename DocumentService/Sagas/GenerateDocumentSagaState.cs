@@ -9,4 +9,6 @@ public class GenerateDocumentSagaState : SagaStateMachineInstance
     
     public string? GenerateDocumentName { get; set; }
     public string? CurrentState { get; set; }
+    
+    public string? ThrowExceptionOn { get; set; }
 }
