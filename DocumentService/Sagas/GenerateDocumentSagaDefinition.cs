@@ -8,6 +8,6 @@ public class GenerateDocumentSagaDefinition : SagaDefinition<GenerateDocumentSag
         ISagaConfigurator<GenerateDocumentSagaState> sagaConfigurator)
     {
         //endpointConfigurator.ConfigureDeadLetterQueueErrorTransport();
-        endpointConfigurator.ConfigureDeadLetterQueueDeadLetterTransport();
+        //endpointConfigurator.ConfigureDeadLetterQueueDeadLetterTransport();
     }
 }

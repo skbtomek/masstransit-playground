@@ -11,7 +11,7 @@ public class AzureServiceBusClient : IClassFixture<ServiceBusFixture>
 {
     private const string SendTopic = "generate-document";
     private const string ReceiveTopic = "generate-document-resolved";
-    private const string ReceiveSubscription = "mendix-tracker";
+    private const string ReceiveSubscription = "unit-test-client";
     
     private readonly ServiceBusFixture _serviceBusFixture;
     private readonly ITestOutputHelper _logger;

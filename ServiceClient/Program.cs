@@ -2,9 +2,9 @@
 using Microsoft.Extensions.Logging;
 using ServiceClient;
 
-const string sendTopic = "contracts.document/generatedocument";
-const string receiveTopic = "contracts.document/generatedocumentresolved";
-const string receiveTopicSubscription = "-client";
+const string sendTopic = "generate-document";
+const string receiveTopic = "generate-document-resolved";
+const string receiveTopicSubscription = "service-client";
 
 var loggerFactory = LoggerFactory.Create(config => config.AddConsole());
 
