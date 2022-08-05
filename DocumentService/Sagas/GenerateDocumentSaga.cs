@@ -1,7 +1,9 @@
-﻿using Contracts.Document;
+﻿using System;
+using Contracts.Document;
 using Contracts.File;
 using DocumentService.Sagas.Activities;
 using MassTransit;
+using Microsoft.Extensions.Logging;
 
 namespace DocumentService.Sagas;
 

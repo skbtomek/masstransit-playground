@@ -1,4 +1,5 @@
-﻿using MassTransit;
+﻿using System;
+using MassTransit;
 
 namespace Contracts.File;
 

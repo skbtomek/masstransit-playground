@@ -42,4 +42,12 @@ public class ServiceBusFixture
 
         return await receiver.ReceiveMessageAsync(TimeSpan.FromSeconds(20));
     }
+
+    public async Task<ServiceBusReceivedMessage?> ReceiveMessage(string queue)
+    {
+        await using var client = new ServiceBusClient(_connectionString);
+        await using var receiver = client.CreateReceiver(queue);
+        
+        return await receiver.ReceiveMessageAsync(TimeSpan.FromSeconds(20));
+    }
 }

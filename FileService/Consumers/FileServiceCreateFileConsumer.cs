@@ -40,7 +40,7 @@ public class FileServiceCreateFileConsumer : IConsumer<CreateFile>
                     context.Message.CorrelationId,
                     FileId = fileId
                 });
-                _logger.LogInformation("File with id {FileId} created", fileId);
+                _logger.LogInformation("File Storage: File with id {FileId} created", fileId);
                 break;
             }
         }

@@ -1,5 +1,8 @@
 using Azure.Monitor.OpenTelemetry.Exporter;
 using DocumentService;
+using Microsoft.AspNetCore.Builder;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
 using OpenTelemetry.Resources;
 using OpenTelemetry.Trace;
 using Serilog;

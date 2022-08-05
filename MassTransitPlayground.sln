@@ -12,6 +12,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Services", "Services", "{E9
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ServiceClient", "ServiceClient\ServiceClient.csproj", "{24B6305C-0076-4935-AA16-A8475361E2EE}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SlowConsumer", "SlowConsumer\SlowConsumer.csproj", "{2719D02E-2890-49E9-A7FC-A9006246955E}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -38,6 +40,10 @@ Global
 		{24B6305C-0076-4935-AA16-A8475361E2EE}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{24B6305C-0076-4935-AA16-A8475361E2EE}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{24B6305C-0076-4935-AA16-A8475361E2EE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2719D02E-2890-49E9-A7FC-A9006246955E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2719D02E-2890-49E9-A7FC-A9006246955E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2719D02E-2890-49E9-A7FC-A9006246955E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2719D02E-2890-49E9-A7FC-A9006246955E}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{23DDD05A-13F0-48E9-888A-FC16AA8E8DF2} = {E9458383-5649-4164-A80D-94A1324EE061}

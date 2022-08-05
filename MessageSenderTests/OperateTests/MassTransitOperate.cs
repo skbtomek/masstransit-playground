@@ -27,11 +27,16 @@ public class MassTransitOperate : IClassFixture<MassTransitOperateFixture>
     [Fact]
     public async Task GenerateDocument()
     {
-        var templateId = Guid.Parse("19b32c80-c4c5-4fce-8a83-0ac4289bcc34");
-        var dataSourceFileId = Guid.Parse("ad4864c5-d914-4cbc-ab61-9eefbd4cfb04");
+        var templateId = Guid.Parse("da8e5611-d6f2-470d-a1de-b65a6cf393b8");
+        var dataSourceFileId = Guid.Parse("e8ad3e51-1ec2-4562-9e08-c1c3ec4220d4");
 
-        await _massTransitFixture.PublishMessageAsync(DocumentEvents.GenerateDocumentRequestSent(
-            _correlationId, templateId, dataSourceFileId, ContentType.Docx, "ts_output_doc"));
+        var msgCount = 0;
+
+        while (msgCount++ < 1000)
+        {
+            await _massTransitFixture.PublishMessageAsync(DocumentEvents.GenerateDocumentRequestSent(
+                Guid.NewGuid(), templateId, dataSourceFileId, ContentType.Docx, "ts_output_doc"));            
+        }
     }
 
     [Theory]

@@ -1,4 +1,6 @@
-﻿using MassTransit;
+﻿using System.Threading.Tasks;
+using MassTransit;
+using Microsoft.Extensions.Logging;
 
 namespace DocumentService;
 
@@ -9,12 +11,12 @@ internal class LoggingEnrichmentFilter<TMessage> : IFilter<ConsumeContext<TMessa
 
     public LoggingEnrichmentFilter(ILogger<LoggingEnrichmentFilter<TMessage>> logger) => this._logger = logger;
 
-    public Task Send(ConsumeContext<TMessage> context, IPipe<ConsumeContext<TMessage>> next)
+    public async Task Send(ConsumeContext<TMessage> context, IPipe<ConsumeContext<TMessage>> next)
     {
         _logger.LogInformation("Consuming {Event} with CorrelationId {CorrelationId}", context.Message.GetType().Name,
             context.CorrelationId);
 
-        return next.Send(context);
+        await next.Send(context);
     }
 
     public void Probe(ProbeContext context) => context.CreateFilterScope(nameof(LoggingEnrichmentFilter<TMessage>));

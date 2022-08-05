@@ -1,4 +1,5 @@
-﻿using MassTransit;
+﻿using System;
+using MassTransit;
 
 namespace Contracts.Document;
 
@@ -8,5 +9,5 @@ public interface GenerateDocument : CorrelatedBy<Guid>
     Guid TemplateFileId { get; }
     Guid DataSourceFileId { get; }
     
-    string ThrowExceptionOn { get; }
+    string? ThrowExceptionOn { get; }
 }

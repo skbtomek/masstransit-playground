@@ -8,26 +8,21 @@ using Serilog;
 
 var builder = WebApplication.CreateBuilder(args);
 
-builder.Host.UseSerilog((ctx, cfg) =>
-{
-    cfg.ReadFrom.Configuration(ctx.Configuration);
-});
+builder.Host.UseSerilog((ctx, cfg) => { cfg.ReadFrom.Configuration(ctx.Configuration); });
 
 builder.Services.AddMassTransit(busConfig =>
 {
     busConfig.AddConsumers(typeof(FileServiceCreateFileConsumer).Assembly);
 
-    busConfig.SetKebabCaseEndpointNameFormatter();
-
     busConfig.UsingAzureServiceBus((context, config) =>
     {
         config.UseConsumeFilter(typeof(LoggingEnrichmentFilter<>), context);
+
         config.Host(builder.Configuration.GetConnectionString("ServiceBus"));
+
         config.ConfigureEndpoints(context);
     });
-
 });
-
 builder.Services.AddOpenTelemetryTracing(tracerBuilder =>
 {
     tracerBuilder.SetResourceBuilder(
